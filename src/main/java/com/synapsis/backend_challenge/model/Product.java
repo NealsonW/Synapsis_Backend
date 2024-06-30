@@ -2,8 +2,12 @@ package com.synapsis.backend_challenge.model;
 
 import java.util.Set;
 
+// import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,25 +26,23 @@ import lombok.Setter;
 public class Product {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private int product_id;
-
-    // @Column(name = "category_id")
-    // private int category_id;
+    private int productId;
 
     @Column(name = "product_name")
-    private String product_name;
+    private String productName;
 
     @Column(name = "product_price")
-    private int product_price;
+    private int productPrice;
 
     @Column(name = "product_stock")
-    private int product_stock;
+    private int productStock;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "Product_Category",
                 joinColumns = @JoinColumn(name = "product_id"),
                 inverseJoinColumns = @JoinColumn(name = "category_id"))
+    // @JsonIgnore
     Set<Category> productCategories;
 }
