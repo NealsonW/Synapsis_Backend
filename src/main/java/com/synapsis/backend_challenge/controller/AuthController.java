@@ -5,7 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.synapsis.backend_challenge.DTO.LoginDTO;
 import com.synapsis.backend_challenge.DTO.SignUpDTO;
 import com.synapsis.backend_challenge.model.Customer;
+import com.synapsis.backend_challenge.model.Role;
 import com.synapsis.backend_challenge.repository.CustomerRepository;
+import com.synapsis.backend_challenge.repository.RoleRepository;
+
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,14 +37,15 @@ public class AuthController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @PostMapping("/login")
     public ResponseEntity<String> loginCustomer(@RequestBody LoginDTO loginDTO){
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDTO.getUsername(), loginDTO.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
 
     }
@@ -55,6 +60,9 @@ public class AuthController {
         Customer customer = new Customer();
         customer.setUsername(signUpDto.getUsername());
         customer.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+
+        Role roles = roleRepository.findByName("ROLE_ADMIN").get();
+        customer.setRoles(Collections.singleton(roles));
 
         customerRepository.save(customer);
 
