@@ -1,0 +1,1 @@
+INSERT INTO `products` (`product_id`, `product_name`, `product_price`, `product_stock`) VALUES (NULL, 'Shampoo', '12000', '10'), (NULL, 'Nuggets', '20000', '20'), (NULL, 'Hat', '50000', '5'), (NULL, 'Soda', '5000', '50');
