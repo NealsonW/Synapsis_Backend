@@ -9,7 +9,7 @@ mvn clean install
 mvn spring-boot:run
 
 Database Table and relations will be automatically made.
-Table Product, Category, Product_Category will be manually inserted.
+Table Products, Categories, ProductCategory will be manually inserted.
 
 Docker Hub
 Link : https://hub.docker.com/repository/docker/nealsonw/synapsischallenge/general
