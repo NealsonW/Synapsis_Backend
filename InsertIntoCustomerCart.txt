@@ -1,1 +1,0 @@
-INSERT INTO `customer_cart` (`customer_id`, `cart_id`) VALUES ('1', '1'), ('1', '2');
