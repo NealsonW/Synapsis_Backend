@@ -12,8 +12,11 @@ import com.synapsis.backend_challenge.model.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 
     Optional<Customer> findByUsername(String username);
-    // Optional<Customer> findByCustomer_id(int customer_id);
-
+    Optional<Customer> findByCustomerId(int customerId);
+    
+    Customer findCustomerByCustomerId(int customerId);
+    
     Boolean existsByUsername(String username);
+    Boolean existsByUsernameOrPassword(String username, String password);
 
 }

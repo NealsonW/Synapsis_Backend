@@ -5,20 +5,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.synapsis.backend_challenge.DTO.LoginDTO;
 import com.synapsis.backend_challenge.DTO.SignUpDTO;
 import com.synapsis.backend_challenge.model.Customer;
-import com.synapsis.backend_challenge.model.Role;
+// import com.synapsis.backend_challenge.model.Role;
 import com.synapsis.backend_challenge.repository.CustomerRepository;
-import com.synapsis.backend_challenge.repository.RoleRepository;
+// import com.synapsis.backend_challenge.repository.RoleRepository;
 
-import java.util.Collections;
+// import java.util.Collections;
+// import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+// import org.springframework.security.authentication.AuthenticationManager;
+// import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+// import org.springframework.security.core.Authentication;
+// import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,24 +29,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    // @Autowired
+    // private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    // @Autowired
+    // private PasswordEncoder passwordEncoder;
 
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    // @Autowired
+    // private RoleRepository roleRepository;
 
     @PostMapping("/login")
     public ResponseEntity<String> loginCustomer(@RequestBody LoginDTO loginDTO){
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+        // Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // SecurityContextHolder.getContext().setAuthentication(authentication);
+        // Optional<Customer> customer = customerRepository.findByUsername(loginDTO.getUsername());
+        if(!customerRepository.existsByUsernameOrPassword(loginDTO.getUsername(), loginDTO.getPassword())){
+            return new ResponseEntity<>("Wrong Username or Password",HttpStatus.BAD_REQUEST);
+        }
+        
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
 
     }
@@ -59,10 +65,10 @@ public class AuthController {
 
         Customer customer = new Customer();
         customer.setUsername(signUpDto.getUsername());
-        customer.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        customer.setPassword(signUpDto.getPassword());
 
-        Role roles = roleRepository.findByName("ROLE_ADMIN").get();
-        customer.setRoles(Collections.singleton(roles));
+        // Role roles = roleRepository.findByName("ROLE_ADMIN").get();
+        // customer.setRoles(roles.);
 
         customerRepository.save(customer);
 
